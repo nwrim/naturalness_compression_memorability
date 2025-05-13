@@ -172,3 +172,13 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+*.tar.gz
+*.sbatch
+*.out
+*.err
+data/experiment
+data/stimuli
+data/image_level_measure/set4_by_category
+01_statistical_analysis/StandardScaler
+01_statistical_analysis/idata

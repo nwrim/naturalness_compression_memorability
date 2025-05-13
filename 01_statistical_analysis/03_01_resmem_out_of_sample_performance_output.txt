@@ -1,0 +1,6 @@
+Pearson correlation with crr for set 1: 0.49324554701847584
+Pearson correlation with hr for set 1: 0.4973683126608351
+Pearson correlation with crr for set 2: 0.5450355136975156
+Pearson correlation with hr for set 2: 0.4910327594363761
+Pearson correlation with crr for set 3: 0.4766186066054562
+Pearson correlation with hr for set 3: 0.4707511377954099

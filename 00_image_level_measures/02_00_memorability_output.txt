@@ -1,0 +1,18 @@
+Image Set Index: 1
+Total participants: 311
+Valid data: 270
+Excluded for having too high far on fillers: 10
+Excluded for missing too much vigliance repeat: 31
+
+Image Set Index: 2
+Total participants: 896
+Valid data: 780
+Excluded for having too high far on fillers: 18
+Excluded for missing too much vigliance repeat: 98
+
+Image Set Index: 3
+Total participants: 1392
+Valid data: 1262
+Excluded for having too high far on fillers: 43
+Excluded for missing too much vigliance repeat: 87
+

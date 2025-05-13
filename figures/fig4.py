@@ -1,0 +1,51 @@
+"""
+Generates Figure 4: linear regression plots showing the relationship between naturalness
+and memorability (corrected recognition rate) across Image Sets 1-3.
+"""
+
+import os
+import sys
+sys.path.append(os.path.join('..', 'scripts'))
+
+import joblib
+import arviz as az
+import xarray as xr
+import numpy as np
+import matplotlib.pyplot as plt
+from models import load_data
+from plotting import plot_linear_relationship
+
+plt.rcParams['svg.fonttype'] = 'none'
+
+XTICKS = np.array([1, 4, 7])
+YTICKS = np.array([0.2, 0.4, 0.6, 0.8, 1.0])
+
+def main():
+    fig, ax = plt.subplots(nrows=1, ncols=3, figsize=(6.75, 3))
+    measures = ['naturalness', 'crr']
+    for col_idx, image_set_index in enumerate([1, 2, 3]):
+        # load the scalars for the predictors and outcomes
+        scalers = {}
+        for measure in measures:
+            scalers[measure] = joblib.load(os.path.join('..', '01_statistical_analysis', 'StandardScaler', f'set{image_set_index}_{measure}.gz'))
+
+        # Load the data for the current image set index
+        df = load_data(image_set_index)
+        x = 'naturalness'
+        y = 'crr'
+        idata = az.from_netcdf(os.path.join('..', '01_statistical_analysis', 'idata', f'set{image_set_index}_lr_p_{x}_o_{y}.nc'))
+        
+        # generate the y model
+        x_scaled = scalers[x].transform(df[x].values.reshape(-1, 1)).flatten()
+        x_linspace = np.linspace(np.min(x_scaled), np.max(x_scaled), 1000)
+        idata.posterior["y_model"] = idata.posterior["alpha"] + idata.posterior["beta_0"] * xr.DataArray(x_linspace)
+        
+        plot_linear_relationship(ax[col_idx], df[x].values, df[y].values, idata,
+                                 x_scaler=scalers[x], y_scaler=scalers[y], xticks=XTICKS, yticks=YTICKS)
+
+    plt.tight_layout(pad=0)
+    plt.savefig(os.path.join('outputs', 'fig4.svg'))
+    plt.close()
+
+if __name__ == '__main__':
+    main()

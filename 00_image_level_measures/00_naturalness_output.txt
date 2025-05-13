@@ -1,0 +1,15 @@
+Image Set Index: 1
+Total participants: 201
+
+Image Set Index: 2
+Total participants: 330
+Valid data: 320
+Excluded for failing attention check: 4
+Excluded for following attention instructions: 6
+
+Image Set Index: 3
+Total participants: 835
+Valid data: 796
+Excluded for failing attention check: 22
+Excluded for following attention instructions: 17
+

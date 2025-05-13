@@ -1,0 +1,4 @@
+Pearson correlation between jpeg and canny for set 1: -0.1504936630188563
+Pearson correlation between jpeg and canny for set 2: 0.00979993713036699
+Pearson correlation between jpeg and canny for set 3: 0.1932273545677795
+Pearson correlation between jpeg and canny for set 4: -0.21886611038732712

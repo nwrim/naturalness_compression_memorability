@@ -1,0 +1,5 @@
+Pearson correlation for set1: 0.9938632202490547
+Pearson correlation for set2: 0.9674303786753062
+Pearson correlation for schertz2018: 0.8958494043582657
+Pearson correlation for coburn2019 (exterior): 0.6273904518034437
+Pearson correlation for coburn2019 (interior): 0.4657720963052654
