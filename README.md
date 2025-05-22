@@ -146,3 +146,23 @@ For scripts that require neural network models, please refer to the dependencies
 
 * [ViTNat](https://github.com/nwrim/ViTNat)
 * [ResMem](https://github.com/Brain-Bridge-Lab/resmem)
+
+# 📚 Citation
+
+If you use this code or data in a scientific publication, we would appreciate citations to the following preprint:
+
+Rim, N., Veillette, J., Lee, S., Kardan, O., Krishnan, S., Bainbridge, W. A., & Berman, M. (2025, May 15). Natural scenes are more compressible and less memorable than human-made scenes. https://doi.org/10.31234/osf.io/xw3ek_v1
+
+Bibtex entry:
+
+```bibtex
+@misc{rim_veillette_lee_kardan_krishnan_bainbridge_berman_2025,
+ title={Natural scenes are more compressible and less memorable than human-made scenes},
+ url={osf.io/preprints/psyarxiv/xw3ek_v1},
+ DOI={10.31234/osf.io/xw3ek_v1},
+ publisher={PsyArXiv},
+ author={Rim, Nakwon and Veillette, John and Lee, Sunny and Kardan, Omid and Krishnan, Sanjay and Bainbridge, Wilma A and Berman, Marc},
+ year={2025},
+ month={May}
+}
+```
