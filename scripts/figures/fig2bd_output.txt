@@ -1,0 +1,6 @@
+low
+% of edges:  [ 5.09  8.23 32.85]
+beta : 0.21
+high
+% of edges:  [ 2.59  5.98 43.37]
+beta : 0.34

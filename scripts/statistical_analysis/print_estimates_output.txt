@@ -1,0 +1,130 @@
+naturalness -> jpeg_based_compressibility
+  set1     β = 0.41, 96% HPDI = [0.31, 0.51], P(β < 0 | data) < .0001
+  set2     β = 0.32, 96% HPDI = [0.26, 0.38], P(β < 0 | data) < .0001
+  set3     β = 0.56, 96% HPDI = [0.51, 0.60], P(β < 0 | data) < .0001
+
+naturalness -> canny_based_compressibility
+  set1     β = 0.27, 96% HPDI = [0.16, 0.37], P(β < 0 | data) < .0001
+  set2     β = 0.36, 96% HPDI = [0.30, 0.41], P(β < 0 | data) < .0001
+  set3     β = 0.23, 96% HPDI = [0.18, 0.28], P(β < 0 | data) < .0001
+
+naturalness -> crr
+  set1     β = -0.45, 96% HPDI = [-0.54, -0.35], P(β > 0 | data) < .0001
+  set2     β = -0.42, 96% HPDI = [-0.47, -0.36], P(β > 0 | data) < .0001
+  set3     β = -0.24, 96% HPDI = [-0.29, -0.19], P(β > 0 | data) < .0001
+
+jpeg_based_compressibility -> crr
+  set1     β = -0.22, 96% HPDI = [-0.32, -0.12], P(β > 0 | data) < .0001
+  set2     β = -0.20, 96% HPDI = [-0.26, -0.14], P(β > 0 | data) < .0001
+  set3     β = -0.16, 96% HPDI = [-0.21, -0.11], P(β > 0 | data) < .0001
+
+canny_based_compressibility -> crr
+  set1     β = -0.17, 96% HPDI = [-0.28, -0.07], P(β > 0 | data) = .0005
+  set2     β = -0.22, 96% HPDI = [-0.28, -0.16], P(β > 0 | data) < .0001
+  set3     β = -0.04, 96% HPDI = [-0.09, 0.01], P(β > 0 | data) = .0489
+
+naturalness -> jpeg_based_compressibility -> crr (mediation)
+  direct effect (c'):
+  set1     c' = -0.43, 96% HPDI = [-0.53, -0.32], P(c' > 0 | data) < .0001
+  set2     c' = -0.39, 96% HPDI = [-0.45, -0.33], P(c' > 0 | data) < .0001
+  set3     c' = -0.21, 96% HPDI = [-0.27, -0.16], P(c' > 0 | data) < .0001
+  indirect effect (a*b):
+  set1     a*b = -0.02, 96% HPDI = [-0.06, 0.02], P(a*b > 0 | data) = .1913
+  set2     a*b = -0.02, 96% HPDI = [-0.04, -0.00], P(a*b > 0 | data) = .0069
+  set3     a*b = -0.02, 96% HPDI = [-0.06, 0.01], P(a*b > 0 | data) = .0683
+  total effect (c):
+  set1     c = -0.45, 96% HPDI = [-0.54, -0.35], P(c > 0 | data) < .0001
+  set2     c = -0.42, 96% HPDI = [-0.47, -0.36], P(c > 0 | data) < .0001
+  set3     c = -0.24, 96% HPDI = [-0.29, -0.19], P(c > 0 | data) < .0001
+
+naturalness -> canny_based_compressibility -> crr (mediation)
+  direct effect (c'):
+  set1     c' = -0.43, 96% HPDI = [-0.53, -0.33], P(c' > 0 | data) < .0001
+  set2     c' = -0.38, 96% HPDI = [-0.44, -0.33], P(c' > 0 | data) < .0001
+  set3     c' = -0.24, 96% HPDI = [-0.29, -0.19], P(c' > 0 | data) < .0001
+  indirect effect (a*b):
+  set1     a*b = -0.01, 96% HPDI = [-0.04, 0.01], P(a*b > 0 | data) = .1229
+  set2     a*b = -0.03, 96% HPDI = [-0.05, -0.01], P(a*b > 0 | data) = .0013
+  set3     a*b = 0.00, 96% HPDI = [-0.01, 0.01], P(a*b > 0 | data) = .7225
+  total effect (c):
+  set1     c = -0.45, 96% HPDI = [-0.54, -0.35], P(c > 0 | data) < .0001
+  set2     c = -0.42, 96% HPDI = [-0.47, -0.36], P(c > 0 | data) < .0001
+  set3     c = -0.24, 96% HPDI = [-0.29, -0.19], P(c > 0 | data) < .0001
+
+============================================================
+
+vitnat -> jpeg_based_compressibility
+  isola    β = 0.41, 96% HPDI = [0.37, 0.45], P(β < 0 | data) < .0001
+  memcat   β = 0.27, 96% HPDI = [0.25, 0.29], P(β < 0 | data) < .0001
+  lamem    β = 0.18, 96% HPDI = [0.17, 0.19], P(β < 0 | data) < .0001
+
+vitnat -> canny_based_compressibility
+  isola    β = 0.40, 96% HPDI = [0.36, 0.44], P(β < 0 | data) < .0001
+  memcat   β = 0.23, 96% HPDI = [0.22, 0.25], P(β < 0 | data) < .0001
+  lamem    β = 0.18, 96% HPDI = [0.17, 0.19], P(β < 0 | data) < .0001
+
+vitnat -> crr
+  isola    β = -0.27, 96% HPDI = [-0.31, -0.23], P(β > 0 | data) < .0001
+  memcat   β = -0.52, 96% HPDI = [-0.54, -0.50], P(β > 0 | data) < .0001
+  lamem    β = -0.18, 96% HPDI = [-0.19, -0.17], P(β > 0 | data) < .0001
+
+jpeg_based_compressibility -> crr
+  isola    β = -0.17, 96% HPDI = [-0.21, -0.13], P(β > 0 | data) < .0001
+  memcat   β = -0.14, 96% HPDI = [-0.16, -0.11], P(β > 0 | data) < .0001
+  lamem    β = -0.10, 96% HPDI = [-0.11, -0.09], P(β > 0 | data) < .0001
+
+canny_based_compressibility -> crr
+  isola    β = -0.18, 96% HPDI = [-0.22, -0.14], P(β > 0 | data) < .0001
+  memcat   β = -0.09, 96% HPDI = [-0.11, -0.07], P(β > 0 | data) < .0001
+  lamem    β = -0.07, 96% HPDI = [-0.07, -0.06], P(β > 0 | data) < .0001
+
+vitnat -> jpeg_based_compressibility -> crr (mediation)
+  direct effect (c'):
+  isola    c' = -0.24, 96% HPDI = [-0.29, -0.20], P(c' > 0 | data) < .0001
+  memcat   c' = -0.52, 96% HPDI = [-0.54, -0.50], P(c' > 0 | data) < .0001
+  lamem    c' = -0.17, 96% HPDI = [-0.18, -0.16], P(c' > 0 | data) < .0001
+  indirect effect (a*b):
+  isola    a*b = -0.03, 96% HPDI = [-0.05, -0.01], P(a*b > 0 | data) = .0013
+  memcat   a*b = 0.00, 96% HPDI = [-0.00, 0.01], P(a*b > 0 | data) = .8054
+  lamem    a*b = -0.01, 96% HPDI = [-0.01, -0.01], P(a*b > 0 | data) < .0001
+  total effect (c):
+  isola    c = -0.27, 96% HPDI = [-0.31, -0.23], P(c > 0 | data) < .0001
+  memcat   c = -0.52, 96% HPDI = [-0.54, -0.50], P(c > 0 | data) < .0001
+  lamem    c = -0.18, 96% HPDI = [-0.19, -0.17], P(c > 0 | data) < .0001
+
+vitnat -> canny_based_compressibility -> crr (mediation)
+  direct effect (c'):
+  isola    c' = -0.23, 96% HPDI = [-0.28, -0.19], P(c' > 0 | data) < .0001
+  memcat   c' = -0.53, 96% HPDI = [-0.55, -0.51], P(c' > 0 | data) < .0001
+  lamem    c' = -0.17, 96% HPDI = [-0.18, -0.17], P(c' > 0 | data) < .0001
+  indirect effect (a*b):
+  isola    a*b = -0.03, 96% HPDI = [-0.05, -0.02], P(a*b > 0 | data) < .0001
+  memcat   a*b = 0.01, 96% HPDI = [0.00, 0.01], P(a*b > 0 | data) > .9999
+  lamem    a*b = -0.01, 96% HPDI = [-0.01, -0.00], P(a*b > 0 | data) < .0001
+  total effect (c):
+  isola    c = -0.27, 96% HPDI = [-0.31, -0.23], P(c > 0 | data) < .0001
+  memcat   c = -0.52, 96% HPDI = [-0.54, -0.50], P(c > 0 | data) < .0001
+  lamem    c = -0.18, 96% HPDI = [-0.19, -0.17], P(c > 0 | data) < .0001
+
+============================================================
+
+naturalness -> jpeg_based_compressibility (random intercept)
+  set3     β = 0.56, 96% HPDI = [0.50, 0.61], P(β < 0 | data) < .0001
+  memcat   β = 0.21, 96% HPDI = [0.18, 0.24], P(β < 0 | data) < .0001
+
+naturalness -> canny_based_compressibility (random intercept)
+  set3     β = 0.23, 96% HPDI = [0.15, 0.30], P(β < 0 | data) < .0001
+  memcat   β = 0.21, 96% HPDI = [0.18, 0.25], P(β < 0 | data) < .0001
+
+naturalness -> crr (random intercept)
+  set3     β = -0.24, 96% HPDI = [-0.30, -0.17], P(β > 0 | data) < .0001
+  memcat   β = -0.23, 96% HPDI = [-0.26, -0.21], P(β > 0 | data) < .0001
+
+jpeg_based_compressibility -> crr (random intercept)
+  set3     β = -0.10, 96% HPDI = [-0.15, -0.04], P(β > 0 | data) = .0001
+  memcat   β = -0.01, 96% HPDI = [-0.03, 0.01], P(β > 0 | data) = .0885
+
+canny_based_compressibility -> crr (random intercept)
+  set3     β = -0.03, 96% HPDI = [-0.08, 0.02], P(β > 0 | data) = .1125
+  memcat   β = -0.01, 96% HPDI = [-0.02, 0.01], P(β > 0 | data) = .2378
+

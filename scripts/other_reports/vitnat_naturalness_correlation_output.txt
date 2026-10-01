@@ -1,0 +1,5 @@
+set1: r = 0.99
+set2: r = 0.97
+schertz: r = 0.90
+coburn (exterior): r = 0.63
+coburn (interior): r = 0.47

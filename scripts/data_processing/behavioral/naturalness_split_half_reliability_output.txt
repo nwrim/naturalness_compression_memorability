@@ -1,0 +1,12 @@
+Image Set Index: 1
+Mean correlation: 0.9961486696871239
+Mean reliability: 0.9980705972029937
+
+Image Set Index: 2
+Mean correlation: 0.9627825612753821
+Mean reliability: 0.9810375908247068
+
+Image Set Index: 3
+Mean correlation: 0.981963622638428
+Mean reliability: 0.9908996245333747
+

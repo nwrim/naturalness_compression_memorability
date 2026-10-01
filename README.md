@@ -1,86 +1,69 @@
-# Natural scenes are more compressible and less memorable than human-made scenes
-
 This repository contains code and data associated with the paper: **_Natural scenes are more compressible and less memorable than human-made scenes_**
 
-# 🧮 Scripts for Image-Level Measures (`00_image_level_measures/`)
+> **Note:** This repository holds the code and data for a revised version of the manuscript, currently under review. The analyses and figures therefore do not fully match the preprint cited below ([Citation](#citation)). For the code and data matching the preprint, see the [`preprint`](https://github.com/nwrim/naturalness_compression_memorability/tree/preprint) tag.
 
-Scripts for computing image-level measures, including behavioral ratings and image-based metrics. See docstrings and inline comments within each script for details. Many custom functions used in these scripts are in `scripts/experiment_data_processing.py`, `scripts/image_processing.py`, and `scripts/compressibility.py`.
+# Scripts
 
-* Analysis for Image Set 1-3
-    - `00_naturalness.py`: Aggregates Likert-scale naturalness ratings across three image sets.
-        * The console output is save to `00_naturalness_output.txt`
-    - `01_compressibility.py`: Computes JPEG-based and Canny-based compressibility across three image sets.
-    - Memorability related scripts
-        * `02_00_memorability.py`: Calculates image-level memorability scores from participant responses in a continuous recognition task across three image sets.
-            - The console output is save to `02_01_memorability_split_half_reliability_output.txt`
-        * `02_01_memorability_reliability.py`: Estimates the split-half reliability of image-level memorability scores for each image set.
-* Neural network performance checking scripts
-    - `03_00_vitnat_out_of_sample_prediction.py`: Applies the ViTNat model (see [this repository](https://github.com/nwrim/ViTNat)) to compute out-of-sample naturalness predictions for:
-        * Image Sets 1–2
-        * External sets: Schertz et al. (2018), Coburn et al. (2019)
-    - `03_01_set123_resmem.py`: Applies the ResMem model (see [this repository](https://github.com/Brain-Bridge-Lab/resmem)) to compute memorability predictions for Image Sets 1–3.
-* Analysis for Image Set 4 (SUN397 database)
-    - `04_00_set4_vitnat_by_category.py`: Applies the ViTNat model (see [this repository](https://github.com/nwrim/ViTNat)) to compute naturalness predictions for images in a single category of the SUN397 dataset.
-    - `04_01_set4_compressibility_by_category.py`: Computes JPEG-based and Canny-based compressibility scores for images in a single category of the SUN397 dataset.
-    - `04_02_set4_resmem_by_category.py`: Applies the ResMem model (see [this repository](https://github.com/Brain-Bridge-Lab/resmem)) to compute memorability predictions for images in a single SUN397 category.
-    - `04_03_set4_merge.py`: Merges per-category SUN397 prediction files into full dataset CSVs:
-        * Naturalness (ViTNat)
-        * Compressibility
-        * Memorability (ResMem)
+Shared modules live in `src/`. Scripts use `sys.path.append` to make everything just work out of the box as long as you run a script from within its own directory, but you could install it too.
 
-# 📈 Scripts for Statistical Analysis (`01_statistical_analysis/`)
+## Getting image-level measures
 
-Scripts for statistical analyses reported in the manuscript. See docstrings and inline comments within each script for details. Many custom functions used in these scripts are in `scripts/models.py`. The ArviZ InferenceData objects from the fitted models are hosted externally in [https://osf.io/snye9](https://osf.io/snye9)
+The scripts under `scripts/data_processing/` compute the per-image measures already included in `data/image_measures/` (see [Image-level measures](#image-level-measures)). You only need to run these if you want to regenerate the measures from raw data, which you'll need to download separately first (see [Stimuli](#stimuli) and [Behavioral data](#behavioral-data)).
 
-* `00_create_scalars.py`: Fits and saves `sklearn.preprocessing.StandardScaler` objects for image-level variables.
-* `01_linear_regressions.py`: Fits Bayesian linear regression models between image-level variables.
-* `02_mediation.py`: Fits Bayesian mediation models to test whether compressibility mediates the relationship between naturalness and memorability.
-* `03_00_vitnat_out_of_sample_performance.py`: Computes Pearson correlations between ViTNat predictions and human naturalness ratings (Likert) across four out-of-sample datasets. 
-    - The console outputs are printed in `03_00_vitnat_out_of_sample_performance_output.txt`
-* `03_01_resmem_out_of_sample_performance.py`: Computes Pearson correlations between ResMem predictions and human memorability data (corrected recognition rate and hit rate) for image sets 1–3. 
-    - The console outputs are printed in `03_01_resmem_out_of_sample_performance_output.txt`
-* `04_set4_linear_regression.py`: Fits Bayesian linear regression models on Image Set 4. When ViTNat is used as a predictor, the model accounts for measurement error using human data from Image Sets 2 and 3.
-* `05_set4_mediation.py`: Fits Bayesian mediation models for Image Set 4 to test whether compressibility mediates the effect of ViTNat on ResMem-predicted memorability. Corrects for measurement error using human ratings and predictions from Sets 2–3.
-* `supp_00_corr_btwn_compressibility.py`: Computes the Pearson correlation between JPEG-based and Canny-based compressibility scores for image sets 1–4.
-    - The console outputs are printed in `supp_00_corr_btwn_compressibility_output.txt`
+* `behavioral/naturalness.py` — aggregates Likert-scale naturalness ratings from `data/behavioral/` into `set{1,2,3}_naturalness.csv`.
+* `behavioral/memorability.py` — aggregates continuous recognition task responses from `data/behavioral/` into `set{1,2,3}_memorability.csv` (corrected recognition rate).
+* `behavioral/naturalness_split_half_reliability.py` and `behavioral/memorability_split_half_reliability.py` — estimate split-half reliability of the naturalness and memorability measures above.
+* `image_stats/compressibility.py` — computes JPEG- and Canny-based compressibility for an image set from `data/stimuli/`. Run as `python compressibility.py --image_set <set>`.
+* `image_stats/vitnat.py` — runs the pretrained ViTNat model to predict naturalness for an image set. Run as `python vitnat.py --image_set <set>`. Needs its own environment (see [Dependencies](#dependencies)).
+* `image_stats/merge_chunks.py` — `compressibility.py` and `vitnat.py` both accept a `--chunk` option to split a large image set into pieces (e.g. for parallel jobs on a cluster) instead of processing it all in one run; this script merges those per-chunk outputs back into a single CSV. Not needed for unchunked run.
 
-# 📦 Data (`data/`) 
+## Fitting statistical models
 
-Data used in this study. Some files are included in the repository; others are hosted externally and must be downloaded.
+The scripts under `scripts/statistical_analysis/` fit the Bayesian models (via PyMC) behind the paper's main results, reading from `data/image_measures/` and writing ArviZ InferenceData (`.nc` files) to `data/idata/`.
 
-## 🧮 Image-level measure (`data/image_level_measure/`)
+* `linear_regressions.py` — fits the main linear regressions (naturalness -> compressibility, naturalness/compressibility -> memorability) for an image set. Run as `python linear_regressions.py --image_set <set>`.
+* `mediations.py` — fits mediation models testing whether compressibility mediates the naturalness -> memorability relationship. Run as `python mediations.py --image_set <set>`.
+* `linear_regressions_random_intercept.py` — reruns the main linear regressions with a group-level random intercept, to control for image category. Only fit for `set3` (grouped by category) and `memcat` (grouped by subcategory). Run as `python linear_regressions_random_intercept.py --image_set <set3|memcat>`.
+* `memorability_ceiling_proportion.py` — prints the proportion of the memorability reliability ceiling (from `data/reliability/`) explained by each predictor's regression beta, for Image Sets 1-3.
+* `print_estimates.py` — prints the manuscript-ready posterior estimates (β, 96% HPDI, tail probability) from the fitted linear regression, mediation, and random-intercept models above.
 
-* **Naturalness rating**: The aggregated naturalness ratings for the images are in:
-    - Image Set 1: `data/image_level_measure/set1_naturalness.csv` (output of `00_image_level_measures/00_naturalness.py`)
-    - Image Set 2: `data/image_level_measure/set2_naturalness.csv` (output of `00_image_level_measures/00_naturalness.py`)
-    - Image Set 3: `data/image_level_measure/set3_naturalness.csv` (output of `00_image_level_measures/00_naturalness.py`)
-* **Compressibility**: JPEG-based and Canny-based compressibility scores for the images are in:
-    - Image Set 1: `data/image_level_measure/set1_compressibility.csv` (output of `00_image_level_measures/01_compressibility.py`)
-    - Image Set 2: `data/image_level_measure/set2_compressibility.csv` (output of `00_image_level_measures/01_compressibility.py`)
-    - Image Set 3: `data/image_level_measure/set3_compressibility.csv` (output of `00_image_level_measures/01_compressibility.py`)
-    - Image Set 4: `data/image_level_measure/set4_compressibility.csv` (output of `00_image_level_measures/04_03_set4_merge.py`)
-        > ⚠️ Note: While `00_image_level_measures/04_01_set4_compressibility_by_category.py` performs the actual calculation, the per-category output files (`data/image_level_measure/set4_by_category/set4_{category_name}_compressibility.csv`) are not included in the repository due to redundancy. All compressibility scores are merged into the single CSV above.
-* **Memorability**: Image-level memorability scores (hit rates) from the continuous recognition task are in:
-    - Image Set 1: `data/image_level_measure/set1_memorability.csv` (output of `00_image_level_measures/02_00_memorability.py`)
-    - Image Set 2: `data/image_level_measure/set2_memorability.csv` (output of `00_image_level_measures/02_00_memorability.py`)
-    - Image Set 3: `data/image_level_measure/set3_memorability.csv` (output of `00_image_level_measures/02_00_memorability.py`)
-* **ViTNat**: Predicted naturalness using the ViTNat model for the images is in:
-    - Image Set 1: `data/image_level_measure/set1_vitnat.csv` (output of `00_image_level_measures/03_00_vitnat_out_of_sample_prediction.py`)
-    - Image Set 2: `data/image_level_measure/set2_vitnat.csv` (output of `00_image_level_measures/03_00_vitnat_out_of_sample_prediction.py`)
-    - Schertz et al. (2018): `data/image_level_measure/schertz2018_vitnat.csv` (output of `00_image_level_measures/03_00_vitnat_out_of_sample_prediction.py`)
-    - Coburn et al. (2019): `data/image_level_measure/coburn2019_vitnat.csv` (output of `00_image_level_measures/03_00_vitnat_out_of_sample_prediction.py`)
-    - Image Set 4: `data/image_level_measure/set4_vitnat.csv` (output of `00_image_level_measures/04_03_set4_merge.py`)
-        > ⚠️ Note: While `00_image_level_measures/04_00_set4_vitnat_by_category.py` performs the actual predictions, the per-category output files (`data/image_level_measure/set4_by_category/set4_{category_name}_vitnat.csv`) are not included in the repository due to redundancy. All naturalness predictions are merged into the single CSV above.
-* **ResMem**: Predicted memorability scores using the ResMem model for the images is in:
-    - `data/image_level_measure/set1_resmem.csv` (output of `00_image_level_measures/03_01_set123_resmem.py`)
-    - `data/image_level_measure/set2_resmem.csv` (output of `00_image_level_measures/03_01_set123_resmem.py`)
-    - `data/image_level_measure/set3_resmem.csv` (output of `00_image_level_measures/03_01_set123_resmem.py`)
-    - `data/image_level_measure/set4_resmem.csv` (output of `00_image_level_measures/04_03_set4_merge.py`)
-        > ⚠️ Note: While `00_image_level_measures/04_02_set4_resmem_by_category.py` performs the actual predictions, the per-category output files (`data/image_level_measure/set4_by_category/set4_{category_name}_resmem.csv`) are not included in the repository due to redundancy. All memorability predictions are merged into the single CSV above.
+## Generating figures
 
-## 🧪 Experimental data (`data/experiment/`)
+The scripts under `scripts/figures/` generate the paper's main figures as SVGs (from `data/idata/` and `data/image_measures/`). These are the data underlying each figure, not the final version.
 
-The raw experimental data is hosted externally via OSF. Download and extract each `.tar.gz` archive into `data/experiment/` to run the aggregation scripts.
+* `fig2ac.py` and `fig2bd.py` — panels A/C and B/D of Figure 2, illustrating JPEG- and Canny-based compressibility on two example images from Image Set 2 (bundled in `scripts/figures/` as `0554.jpg`, `0998.jpg`).
+* `fig3.py` — Figure 3: naturalness vs. compressibility (JPEG- and Canny-based) for Image Sets 1-3.
+* `fig4.py` — Figure 4B: naturalness vs. memorability (crr) for Image Sets 1-3.
+* `fig5.py` — Figure 5: ViTNat-predicted naturalness vs. compressibility/memorability for the `isola`/`memcat`/`lamem` datasets.
+
+## Other reports
+
+Standalone reports under `scripts/other_reports/` that don't feed into the main modeling pipeline:
+
+* `naturalness_5_or_higher.py` — prints the percentage of images rated naturalness ≥ 5, for Image Sets 1-3.
+* `vitnat_naturalness_correlation.py` — prints the Pearson correlation between ViTNat predictions and human-rated naturalness, measuring ViTNat's out-of-sample performance on Image Sets 1-2 and the external Schertz et al. (2018) and Coburn et al. (2019) validation datasets.
+
+# Data
+
+## Image-level measures
+Per-image measures (naturalness, compressibility, memorability, and ViTNat predictions) for all datasets are included in the repository under `data/image_measures`, one CSV per dataset per measure (e.g. `set1_naturalness.csv`, `memcat_memorability.csv`).
+
+## Reliability
+Split-half reliability estimates (1000 permutations each) for the naturalness and memorability measures of Image Sets 1-3 are included in the repository under `data/reliability`, as `{image_set}_{naturalness,memorability}_split_half_correlations.npy`. See `behavioral/naturalness_split_half_reliability.py` and `behavioral/memorability_split_half_reliability.py` if you want to regenerate them.
+
+## Stimuli
+The image stimuli are hosted externally via OSF. Image measures for these sets are already included in the repository, so you only need to download the stimuli if you want to rerun the image measure scripts.
+
+Download and extract the `.tar.gz` archives into `data/stimuli/`:
+
+* Image Set 1: [https://osf.io/rhy8d](https://osf.io/rhy8d)
+* Image Set 2: [https://osf.io/dyjk9](https://osf.io/dyjk9)
+* Image Set 3: [https://osf.io/5bwgu](https://osf.io/5bwgu)
+
+## Behavioral data
+The raw, trial-level behavioral data (in BIDS format) is hosted externally via OSF. The aggregated per-image measures are already included in the repository, so you only need to download the raw data if you want to rerun the aggregation scripts.
+
+Download and extract the `.tar.gz` archives into `data/behavioral/`:
 
 * Naturalness rating
     - Image Set 1: [https://osf.io/9sx3c](https://osf.io/9sx3c)
@@ -91,63 +74,34 @@ The raw experimental data is hosted externally via OSF. Download and extract eac
     - Image Set 2: [https://osf.io/nzc65](https://osf.io/nzc65)
     - Image Set 3: [https://osf.io/k8snr](https://osf.io/k8snr)
 
-## 🖼️ Stimuli (`data/stimuli`)
+## External datasets
+These datasets are hosted by their original authors and are not redistributed here:
 
-The image stimuli are hosted externally. Download and extract the `.tar.gz` archives into `data/stimuli/` to run scripts that compute compressibility or apply ViTNat/ResMem.
+* Isola memorability dataset: [https://web.mit.edu/phillipi/Public/WhatMakesAnImageMemorable/](https://web.mit.edu/phillipi/Public/WhatMakesAnImageMemorable/). Extract it into `data/stimuli/isola/`. The images are distributed as MATLAB `.mat` files and must be resaved as standard image files before use.
+* MemCat: [https://gestaltrevision.be/projects/memcat/](https://gestaltrevision.be/projects/memcat/). Extract it into `data/stimuli/MemCat/`, so that images end up at `data/stimuli/MemCat/MemCat_images/`.
+* LaMem: [http://memorability.csail.mit.edu/download.html](http://memorability.csail.mit.edu/download.html). Extract it into `data/stimuli/lamem/`, so that images end up at `data/stimuli/lamem/images/`.
 
-* Image Set 1: [https://osf.io/rhy8d](https://osf.io/rhy8d)
-* Image Set 2: [https://osf.io/dyjk9](https://osf.io/dyjk9)
-* Image Set 3: [https://osf.io/5bwgu](https://osf.io/5bwgu)
+Memorability measures for these datasets come from the same source as the stimuli themselves. We provide them reformatted to match our own image measures, in `data/image_measures`. A few notes:
 
-Image Set 4, or the SUN397 database can be downloaded from:
+* The Isola memorability dataset only provides raw hit/false alarm/miss/correct-rejection counts, so CRR is calculated from these.
+* For MemCat, we use the `memorability_w_fa_correction` column, renamed to `crr`.
+* For LaMem, we use only the data from split 1.
 
-* Image Set 4 (SUN397 database): [SUN397.tar.gz](http://vision.princeton.edu/projects/2010/SUN/SUN397.tar.gz) ([project website](https://vision.princeton.edu/projects/2010/SUN/)).
-
-The two external sets used to test ViTNat:
+Two further external sets are used only to test ViTNat's out-of-sample performance. Their naturalness ratings and ViTNat predictions are included in `data/image_measures`:
 
 * Schertz et al. (2018): Can be downloaded from [this repository](https://github.com/kschertz/TKF_Park_Images) ([Link to the paper](https://doi.org/10.1016/j.cognition.2018.01.011))
 * Coburn et al. (2019): Please contact the authors for this image set ([Link to the paper](https://doi.org/10.1016/j.jenvp.2019.02.007))
 
-# 📊 Figure Generation Scripts (`figures/`)
+## Model outputs
+The Bayesian model fits produced by `scripts/statistical_analysis/` (ArviZ InferenceData `.nc` files) are hosted externally via OSF: [https://osf.io/6cqta/files/xfe8v](https://osf.io/6cqta/files/xfe8v). Download and extract into `data/idata/`.
 
-Scripts for reproducing main and supplementary figures. See docstrings and inline comments within each script for details. Many custom functions used in these scripts are in `scripts/plotting.py`.
+The summary estimates printed from these fits are already included, as `print_estimates_output.txt` in `scripts/statistical_analysis/`.
 
-* `fig1.py`: Generates components of Figure 1. Outputs are saved in `figures/outputs/fig1/`.
-* `fig2ac.py`: Generates panels A and C of Figure 2. Outputs are saved in `figures/outputs/fig2/`.
-    - The console output is save to `figures/fig2ac_output.txt`
-* `fig2bd.py`: Generates panels B and D of Figure 2. Outputs are saved in `figures/outputs/fig2/`.
-    - The console output is save to `figures/fig2bd_output.txt`
-* `fig3.py`, `fig4.py`, `fig5.py`: Generate Figures 3–5. Outputs are saved in `figures/outputs/fig{3-5}.svg`
-* `figS1.py`: Generates components of Figure S1. Outputs are saved in `figures/outputs/figS1/`.
-* `figS2.py`: Generates components of Figure S2. Outputs are saved in `figures/outputs/figS2/`.
-* `figS3.py`, `figS4.py`, `figS7.py`, `figS8.py`: Generate Supplementary Figures S3, S4, S7, and S8. Outputs are saved in `figures/outputs/figS{3, 4, 7, 8}.svg`
-* `figS56.py`: Generates Supplementary Figures S5 and S6.
+# Dependencies
 
-# 📦 Dependencies
-To install all required packages, use the provided `requirements.txt` file:
+Python 3.12.13. See `requirements.txt`. This covers everything except `image_stats/vitnat.py`, which was run in a separate environment. See [https://github.com/nwrim/ViTNat](https://github.com/nwrim/ViTNat).
 
-```sh
-pip install -r requirements.txt
-```
-
-Alternatively, you can install the core packages manually. This project was developed with the following versions:
-
-* `python==3.11.5`
-* `numpy==2.2.5`
-* `pandas==2.2.3`
-* `tqdm==4.67.1`
-* `scipy==1.15.2`
-* `scikit-image==0.25.2`
-* `pymc==5.22.0`
-* `scikit-learn==1.6.1`
-* `seaborn==0.13.2`
-
-For scripts that require neural network models, please refer to the dependencies listed in their respective repositories:
-
-* [ViTNat](https://github.com/nwrim/ViTNat)
-* [ResMem](https://github.com/Brain-Bridge-Lab/resmem)
-
-# 📚 Citation
+# Citation
 
 If you use this code or data in a scientific publication, we would appreciate citations to the following preprint:
 
@@ -161,8 +115,12 @@ Bibtex entry:
  url={osf.io/preprints/psyarxiv/xw3ek_v1},
  DOI={10.31234/osf.io/xw3ek_v1},
  publisher={PsyArXiv},
- author={Rim, Nakwon and Veillette, John and Lee, Sunny and Kardan, Omid and Krishnan, Sanjay and Bainbridge, Wilma A and Berman, Marc},
+ author={Rim, Nakwon and Veillette, John and Lee, Sunny and Kardan, Omid and Krishnan, Sanjay and Bainbridge, Wilma A and Berman, Marc G},
  year={2025},
  month={May}
 }
 ```
+
+# Disclaimer
+
+Most of the docstrings for the functions in `src/` were written with AI assistance.

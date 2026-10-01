@@ -1,0 +1,18 @@
+Image Set: set1
+  Ceiling: 0.84
+  naturalness -> crr: 53% of ceiling (0.45)
+  jpeg_based_compressibility -> crr: 26% of ceiling (0.22)
+  canny_based_compressibility -> crr: 20% of ceiling (0.17)
+
+Image Set: set2
+  Ceiling: 0.85
+  naturalness -> crr: 49% of ceiling (0.42)
+  jpeg_based_compressibility -> crr: 23% of ceiling (0.20)
+  canny_based_compressibility -> crr: 26% of ceiling (0.22)
+
+Image Set: set3
+  Ceiling: 0.77
+  naturalness -> crr: 31% of ceiling (0.24)
+  jpeg_based_compressibility -> crr: 21% of ceiling (0.16)
+  canny_based_compressibility -> crr: 5% of ceiling (0.04)
+

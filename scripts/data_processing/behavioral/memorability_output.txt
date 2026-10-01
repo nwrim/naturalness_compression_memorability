@@ -1,0 +1,18 @@
+Image Set Index: 1
+Total participants: 311
+Valid data: 270
+Excluded for high false alarm rate on fillers: 10
+Excluded for high miss rate on vigilance repeats: 31
+
+Image Set Index: 2
+Total participants: 896
+Valid data: 780
+Excluded for high false alarm rate on fillers: 18
+Excluded for high miss rate on vigilance repeats: 98
+
+Image Set Index: 3
+Total participants: 1392
+Valid data: 1262
+Excluded for high false alarm rate on fillers: 43
+Excluded for high miss rate on vigilance repeats: 87
+

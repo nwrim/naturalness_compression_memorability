@@ -1,0 +1,6 @@
+low
+% of energy:  [17.87 14.59 12.33]
+beta : -1.35
+high
+% of energy:  [14.81 11.92 11.29]
+beta : -1.13
